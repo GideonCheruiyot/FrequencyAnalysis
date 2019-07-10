@@ -98,12 +98,12 @@ def FrequencyCount():
 #fetch analysis from mongod database
 @app.route('/FrequencyAnalysis', methods=['GET','POST'])
 def FrequencyAnalysis():
+    #query to pull the most recent 11 items from mongo database
     myresult = collection.find().skip(collection.count() - 11)
     list   = []
     for i in myresult:
         list.append(i)
  
-    print(list[0]["word_frequencies"])
     
     return render_template('analysis.html', list = list)
 
