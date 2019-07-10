@@ -44,15 +44,16 @@ def getfile():
             tokenized_word=word_tokenize(file_content)   
             tokenized_word = [word for word in tokenized_word if word.isalpha()]
 
-            fdist = FreqDist(tokenized_word)
+            fdist_withStopwords = FreqDist(tokenized_word)
+            fdist_withoutStopwords = FreqDist(tokenized_word)
 
-            #add original text to collection
-
-
-            #add to collection word setting
+            #add  (original text, stop words setting, and resulting word frequencies) to the mongodb collection
             stopwords_flag= "False"
             is_checked = request.form.get('option_1')
             if(is_checked!='on'):
+
+                stopwords_flag= "False"
+                with_Stopwords_25 = fdist_withStopwords.most_common(25)
                 json_without_stopwords = {
                         'title': 'Learning Python',
                         'content': 'Learn Python, it is easy',
@@ -64,11 +65,12 @@ def getfile():
                 stopwords_flag = "True"
                 stop_words=set(stopwords.words("english"))
             #without stopwords
-                filtered_sent=[]
+                filtered_word=[]
                 for w in tokenized_word:
                     if w not in stop_words:
-                        filtered_sent.append(w) 
-                print(filtered_sent)
+                        filtered_word.append(w) 
+                fdist_withoutStopwords = FreqDist(filtered_word)
+                without_Stopwords_25 = fdist_withoutStopwords.most_common(25)
 
                 json_stopwords = {
                         'title': 'Learning Python',
@@ -76,25 +78,10 @@ def getfile():
                         'author': 'Bill'
                     }
 
-            #assign both collections with flag to determine word setting
 
-
-
-
-
-            fdist_withStopwords = FreqDist(tokenized_word)
-
-            stop_words=set(stopwords.words("english"))
-
-
-
-            fdist_withoutStopwords = FreqDist(tokenized_word)
-
-            #results
             #store results in mongo database then push to frontend
-            return render_template('Add_item.html', results=fdist.most_common(25))
+            return render_template('Add_item.html', results=fdist_withoutStopwords.most_common(25))
 
- 
     else:
 
         result = request.args.get(['myfile'])
