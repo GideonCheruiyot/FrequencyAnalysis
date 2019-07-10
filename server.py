@@ -83,17 +83,13 @@ def getfile():
                 result = collection.insert_one(stopwords_data)
                 
 
-
             #store results in mongo database then push to frontend
             return render_template('Add_item.html', results=without_Stopwords_25)
 
     else:
-
         result = request.args.get(['myfile'])
 
-
     return result
-
 
 
 @app.route('/FrequencyCount', methods=['GET', 'POST'])
