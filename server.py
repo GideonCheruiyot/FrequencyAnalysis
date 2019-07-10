@@ -4,6 +4,7 @@ from flask import Response, request, jsonify
 from flask import Flask, render_template, request
 from werkzeug import secure_filename
 from nltk.tokenize import word_tokenize
+from nltk.probability import FreqDist
 import pymongo
 import os
 import datetime
@@ -23,49 +24,16 @@ db = client.HumanPractice
 
 collection = db.Freq
 
-
-post = {"author": "Mike",
-       "text": "My first blog post!",
-       "tags": ["mongodb", "python", "pymongo"],
-        "date": datetime.datetime.utcnow()}
-posts = db.posts
-post_id = posts.insert_one(post).inserted_id
-print(post_id)
-
-
 tokenizer = RegexpTokenizer(r'\w+') 
 nltk.download('punkt')
 nltk.download('stopwords')
 
 app = Flask(__name__)
 
-current_id= 30;
-songs= [
-             {
-             "id": 1,
-             "Title": "God's Plan",
-             "Singer": "Drake",
-             "Album": "Scorpion",
-             "Genre": ["pop", "pop-rap", "trap"],
-             "Summary": "“Gods Plan is a song recorded by Canadian rapper Drake, released on January 19, 2018, through Jackson, Young Money and Matthew Samuels,and Cash Money. Written by Aubrey Graham, Ronald LaTour, Daveon Noah Shebib and produced by Cardo, Yung Exclusive,  and Boi-1da, the track acts as a single from his second EP. Musically, it has been described pop as , lead singlefrom his pop-rap and trap, whose lyrics talk about fame and his fate.",
-             "Label": ["Young Money", "Cash Money", "Republic"], 
-             "Songwriter":["Aubrey Graham", "Ronald LaTour", "Daveon Jackson", "Matthew Samuels", "Noah Shebib"], 
-             "Producer": "Boi-1da",
-             "image":"https://i.redd.it/3qdoi17x5uc01.jpg"
-             },
-
-]
-
-
-@app.route('/Add_item', methods=['GET', 'POST'])
-def Add_item(songs=songs):
-    return render_template('Add_item.html', songs=songs)
-
 
 @app.route('/getfile', methods=['GET','POST'])
 def getfile():
     if request.method == 'POST':
-
         # for secure filenames. Read the documentation.
         file = request.files['myfile']
         filename = secure_filename(file.filename) 
@@ -76,24 +44,74 @@ def getfile():
             tokenized_word=word_tokenize(file_content)   
             tokenized_word = [word for word in tokenized_word if word.isalpha()]
 
-            from nltk.probability import FreqDist
             fdist = FreqDist(tokenized_word)
+
+            #add original text to collection
+
+
+            #add to collection word setting
+            stopwords_flag= "False"
+            is_checked = request.form.get('option_1')
+            if(is_checked!='on'):
+                json_without_stopwords = {
+                        'title': 'Learning Python',
+                        'content': 'Learn Python, it is easy',
+                        'author': 'Bill'
+                    }
+
+            else:
+
+                stopwords_flag = "True"
+                stop_words=set(stopwords.words("english"))
+            #without stopwords
+                filtered_sent=[]
+                for w in tokenized_word:
+                    if w not in stop_words:
+                        filtered_sent.append(w) 
+                print(filtered_sent)
+
+                json_stopwords = {
+                        'title': 'Learning Python',
+                        'content': 'No',
+                        'author': 'Bill'
+                    }
+
+            #assign both collections with flag to determine word setting
+
+
+
+
+
+            fdist_withStopwords = FreqDist(tokenized_word)
 
             stop_words=set(stopwords.words("english"))
 
-            filtered_sent=[]
-            for w in tokenized_word:
-                if w not in stop_words:
-                    filtered_sent.append(w) 
+
+
+            fdist_withoutStopwords = FreqDist(tokenized_word)
+
             #results
             #store results in mongo database then push to frontend
+            return render_template('Add_item.html', results=fdist.most_common(25))
 
-            return str(fdist.most_common(25))
  
     else:
-        result = request.args.get['myfile']
+
+        result = request.args.get(['myfile'])
+
 
     return result
+
+
+
+@app.route('/FrequencyCount', methods=['GET', 'POST'])
+def FrequencyCount():          
+    return render_template('Add_item.html')
+
+#fetch analysis from mongod database
+@app.route('/Analysis', methods=['GET','POST'])
+def Analysis_WithoutStopWords():
+    return render_template('stopwords.html')
 
 
 
