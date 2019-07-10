@@ -1,0 +1,498 @@
+{% extends 'layout.html' %}
+{% block scripts %}
+
+  <style>
+   body {
+    position: relative; 
+  }
+  h2 {
+  text-align: left;
+  font-weight: 140;
+  font-size: 25pt;
+  display: inline;
+} 
+p {display: inline;
+font-size: 40px;
+}
+.mycontent-left {
+  border-right: 1px dashed #333;
+}
+
+  </style>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="{{ url_for('static', filename = 'itempage.js') }}"></script>
+	<script>
+		 
+	</script>
+{% endblock %}
+{% block content %}
+<div class="container mt-3">
+  <br>
+  <h2>Compare your results with previous Frequency Analysis:</h2>
+  <br>
+  <br>
+  <!-- Nav tabs -->
+  <ul class="nav nav-tabs">
+    <li class="nav-item">
+      <a class="nav-link active" data-toggle="tab" href="#home">LATEST</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" data-toggle="tab" href="#menu1">PREV </a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" data-toggle="tab" href="#menu2">PREV 1</a>
+    </li>
+        <li class="nav-item">
+      <a class="nav-link" data-toggle="tab" href="#menu3">PREV 2</a>
+    </li>
+
+        <li class="nav-item">
+      <a class="nav-link" data-toggle="tab" href="#menu4">PREV 3</a>
+    </li>
+
+        <li class="nav-item">
+      <a class="nav-link" data-toggle="tab" href="#menu5">PREV 4</a>
+    </li>
+
+        <li class="nav-item">
+      <a class="nav-link" data-toggle="tab" href="#menu6">PREV 5</a>
+    </li>
+
+        <li class="nav-item">
+      <a class="nav-link" data-toggle="tab" href="#menu7">PREV 6</a>
+    </li>
+
+        <li class="nav-item">
+      <a class="nav-link" data-toggle="tab" href="#menu8">PREV 7</a>
+    </li>
+
+            <li class="nav-item">
+      <a class="nav-link" data-toggle="tab" href="#menu9">PREV 8</a>
+    </li>
+
+            <li class="nav-item">
+      <a class="nav-link" data-toggle="tab" href="#menu10">PREV 9</a>
+    </li>
+
+      <li class="nav-item">
+      <a class="nav-link" data-toggle="tab" href="#menu11">PREV 10</a>
+    </li>
+
+  </ul>
+
+  <!-- Tab panes -->
+  <div class="tab-content">
+    <div id="home" class="container tab-pane active"><br>
+      <h2>Word setting: </h2><p>{{list[0]["stop_words_setting"]}}</p>
+
+
+<br>
+      <div class="modal-body row">
+          <div class="col-md-6">
+            <h2>Original Text</h2>
+            <div class="mycontent-left">
+            {{list[0]["original_text"]}}
+          </div>
+        </div>
+          <div class="col-md-6">
+            <h2>Word Frequency List</h2>
+            <div class="mycontent-right">
+                    <ul class="list-group">
+                  {% for href, caption in list[0]["word_frequencies"] %}
+                    <li class="list-group-item">
+                    <div class="col-md-6 row">
+                       
+                  <div class="col-md-5" >
+                     {{ href }}
+                  </div>
+
+                  <div class="col-md-1" >
+                    {{ caption }}
+                  </div>
+                  </div>
+                   </li>
+                  {% endfor %}
+                  </ul>
+          </div>
+        </div>
+</div>
+
+    </div>
+    <div id="menu1" class="container tab-pane fade"><br>
+<h2>Word setting: </h2><p>{{list[1]["stop_words_setting"]}}</p>
+
+      <div class="modal-body row">
+          <div class="col-md-6">
+            <h2>Original Text</h2>
+            <div class="mycontent-left">
+            {{list[1]["original_text"]}}
+          </div>
+        </div>
+          <div class="col-md-6">
+            <h2>Word Frequency List</h2>
+            <div class="mycontent-right">
+                    <ul class="list-group">
+                  {% for href, caption in list[1]["word_frequencies"] %}
+                    <li class="list-group-item">
+                    <div class="col-md-6 row">
+                       
+                  <div class="col-md-5" >
+                     {{ href }}
+                  </div>
+
+                  <div class="col-md-1" >
+                    {{ caption }}
+                  </div>
+                  </div>
+                   </li>
+                  {% endfor %}
+                  </ul>
+          </div>
+        </div>
+
+    </div>
+  </div>
+
+    <div id="menu2" class="container tab-pane fade"><br>
+    
+     <h2>Word setting: </h2><p>{{list[2]["stop_words_setting"]}}</p>
+
+      <div class="modal-body row">
+          <div class="col-md-6">
+            <h2>Original Text</h2>
+            <div class="mycontent-left">
+            {{list[2]["original_text"]}}
+          </div>
+        </div>
+          <div class="col-md-6">
+            <h2>Word Frequency List</h2>
+            <div class="mycontent-right">
+                    <ul class="list-group">
+                  {% for href, caption in list[2]["word_frequencies"] %}
+                    <li class="list-group-item">
+                    <div class="col-md-6 row">
+                       
+                  <div class="col-md-5" >
+                     {{ href }}
+                  </div>
+
+                  <div class="col-md-1" >
+                    {{ caption }}
+                  </div>
+                  </div>
+                   </li>
+                  {% endfor %}
+                  </ul>
+          </div>
+        </div>
+
+    </div>
+
+    </div>
+        <div id="menu3" class="container tab-pane fade"><br>
+    
+     <h2>Word setting: </h2><p>{{list[3]["stop_words_setting"]}}</p>
+
+      <div class="modal-body row">
+          <div class="col-md-6">
+            <h2>Original Text</h2>
+            <div class="mycontent-left">
+            {{list[3]["original_text"]}}
+          </div>
+        </div>
+          <div class="col-md-6">
+            <h2>Word Frequency List</h2>
+            <div class="mycontent-right">
+                    <ul class="list-group">
+                  {% for href, caption in list[3]["word_frequencies"] %}
+                    <li class="list-group-item">
+                    <div class="col-md-6 row">
+                       
+                  <div class="col-md-5" >
+                     {{ href }}
+                  </div>
+
+                  <div class="col-md-1" >
+                    {{ caption }}
+                  </div>
+                  </div>
+                   </li>
+                  {% endfor %}
+                  </ul>
+          </div>
+        </div>
+
+    </div>
+
+    </div>
+
+        <div id="menu4" class="container tab-pane fade"><br>
+    
+     <h2>Word setting: </h2><p>{{list[4]["stop_words_setting"]}}</p>
+
+      <div class="modal-body row">
+          <div class="col-md-6">
+            <h2>Original Text</h2>
+            <div class="mycontent-left">
+            {{list[4]["original_text"]}}
+          </div>
+        </div>
+          <div class="col-md-6">
+            <h2>Word Frequency List</h2>
+            <div class="mycontent-right">
+                    <ul class="list-group">
+                  {% for href, caption in list[4]["word_frequencies"] %}
+                    <li class="list-group-item">
+                    <div class="col-md-6 row">
+                       
+                  <div class="col-md-5" >
+                     {{ href }}
+                  </div>
+
+                  <div class="col-md-1" >
+                    {{ caption }}
+                  </div>
+                  </div>
+                   </li>
+                  {% endfor %}
+                  </ul>
+          </div>
+        </div>
+
+    </div>
+
+    </div>
+
+        <div id="menu5" class="container tab-pane fade"><br>
+    
+     <h2>Word setting: </h2><p>{{list[5]["stop_words_setting"]}}</p>
+
+      <div class="modal-body row">
+          <div class="col-md-6">
+            <h2>Original Text</h2>
+            <div class="mycontent-left">
+            {{list[5]["original_text"]}}
+          </div>
+        </div>
+          <div class="col-md-6">
+            <h2>Word Frequency List</h2>
+            <div class="mycontent-right">
+                    <ul class="list-group">
+                  {% for href, caption in list[5]["word_frequencies"] %}
+                    <li class="list-group-item">
+                    <div class="col-md-6 row">
+                       
+                  <div class="col-md-5" >
+                     {{ href }}
+                  </div>
+
+                  <div class="col-md-1" >
+                    {{ caption }}
+                  </div>
+                  </div>
+                   </li>
+                  {% endfor %}
+                  </ul>
+          </div>
+        </div>
+
+    </div>
+
+    </div>
+
+
+        <div id="menu6" class="container tab-pane fade"><br>
+    
+     <h2>Word setting: </h2><p>{{list[6]["stop_words_setting"]}}</p>
+
+      <div class="modal-body row">
+          <div class="col-md-6">
+            <h2>Original Text</h2>
+            <div class="mycontent-left">
+            {{list[6]["original_text"]}}
+          </div>
+        </div>
+          <div class="col-md-6">
+            <h2>Word Frequency List</h2>
+            <div class="mycontent-right">
+                    <ul class="list-group">
+                  {% for href, caption in list[6]["word_frequencies"] %}
+                    <li class="list-group-item">
+                    <div class="col-md-6 row">
+                       
+                  <div class="col-md-5" >
+                     {{ href }}
+                  </div>
+
+                  <div class="col-md-1" >
+                    {{ caption }}
+                  </div>
+                  </div>
+                   </li>
+                  {% endfor %}
+                  </ul>
+          </div>
+        </div>
+
+    </div>
+
+    </div>
+
+        <div id="menu7" class="container tab-pane fade"><br>
+    
+     <h2>Word setting: </h2><p>{{list[7]["stop_words_setting"]}}</p>
+
+      <div class="modal-body row">
+          <div class="col-md-6">
+            <h2>Original Text</h2>
+            <div class="mycontent-left">
+            {{list[7]["original_text"]}}
+          </div>
+        </div>
+          <div class="col-md-6">
+            <h2>Word Frequency List</h2>
+            <div class="mycontent-right">
+                    <ul class="list-group">
+                  {% for href, caption in list[7]["word_frequencies"] %}
+                    <li class="list-group-item">
+                    <div class="col-md-6 row">
+                       
+                  <div class="col-md-5" >
+                     {{ href }}
+                  </div>
+
+                  <div class="col-md-1" >
+                    {{ caption }}
+                  </div>
+                  </div>
+                   </li>
+                  {% endfor %}
+                  </ul>
+          </div>
+        </div>
+
+    </div>
+
+    </div>
+
+        <div id="menu8" class="container tab-pane fade"><br>
+    
+     <h2>Word setting: </h2><p>{{list[8]["stop_words_setting"]}}</p>
+
+      <div class="modal-body row">
+          <div class="col-md-6">
+            <h2>Original Text</h2>
+            <div class="mycontent-left">
+            {{list[8]["original_text"]}}
+          </div>
+        </div>
+          <div class="col-md-6">
+            <h2>Word Frequency List</h2>
+            <div class="mycontent-right">
+                    <ul class="list-group">
+                  {% for href, caption in list[8]["word_frequencies"] %}
+                    <li class="list-group-item">
+                    <div class="col-md-6 row">
+                       
+                  <div class="col-md-5" >
+                     {{ href }}
+                  </div>
+
+                  <div class="col-md-1" >
+                    {{ caption }}
+                  </div>
+                  </div>
+                   </li>
+                  {% endfor %}
+                  </ul>
+          </div>
+        </div>
+
+    </div>
+
+    </div>
+
+        <div id="menu9" class="container tab-pane fade"><br>
+    
+     <h2>Word setting: </h2><p>{{list[9]["stop_words_setting"]}}</p>
+
+      <div class="modal-body row">
+          <div class="col-md-6">
+            <h2>Original Text</h2>
+            <div class="mycontent-left">
+            {{list[9]["original_text"]}}
+          </div>
+        </div>
+          <div class="col-md-6">
+            <h2>Word Frequency List</h2>
+            <div class="mycontent-right">
+                    <ul class="list-group">
+                  {% for href, caption in list[9]["word_frequencies"] %}
+                    <li class="list-group-item">
+                    <div class="col-md-6 row">
+                       
+                  <div class="col-md-5" >
+                     {{ href }}
+                  </div>
+
+                  <div class="col-md-1" >
+                    {{ caption }}
+                  </div>
+                  </div>
+                   </li>
+                  {% endfor %}
+                  </ul>
+          </div>
+        </div>
+
+    </div>
+
+    </div>
+
+        <div id="menu10" class="container tab-pane fade"><br>
+    
+     <h2>Word setting: </h2><p>{{list[10]["stop_words_setting"]}}</p>
+
+      <div class="modal-body row">
+          <div class="col-md-6">
+            <h2>Original Text</h2>
+            <div class="mycontent-left">
+            {{list[10]["original_text"]}}
+          </div>
+        </div>
+          <div class="col-md-6">
+            <h2>Word Frequency List</h2>
+            <div class="mycontent-right">
+                    <ul class="list-group">
+                  {% for href, caption in list[10]["word_frequencies"] %}
+                    <li class="list-group-item">
+                    <div class="col-md-6 row">
+                       
+                  <div class="col-md-5" >
+                     {{ href }}
+                  </div>
+
+                  <div class="col-md-1" >
+                    {{ caption }}
+                  </div>
+                  </div>
+                   </li>
+                  {% endfor %}
+                  </ul>
+          </div>
+        </div>
+
+    </div>
+
+    </div>
+
+
+
+
+  </div>
+</div>
+
+{% endblock %}
