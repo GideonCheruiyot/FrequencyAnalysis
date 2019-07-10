@@ -58,33 +58,32 @@ def getfile():
             without_Stopwords_25 = fdist_withoutStopwords.most_common(25)
 
             #add  (original text, stop words setting, and resulting word frequencies) to the mongodb collection
-            stopwords_flag= "False"
+            stopwords_flag= "No_Stopwords"
             is_checked = request.form.get('option_1')
             if(is_checked!='on'):
 
-                stopwords_flag= "False"
+                stopwords_flag= "No_Stopwords"
                 without_stopwords_data = {
-                        'original text': tokenized_word,
-                        'stop words setting': stopwords_flag,
-                        'word frequencies': with_Stopwords_25
+                        'original_text': tokenized_word,
+                        'stop_words_setting': stopwords_flag,
+                        'word_frequencies': with_Stopwords_25
                     }
-                result = collection.insert_one(without_stopwords_data)
-                
+                result = collection.insert_one(without_stopwords_data)       
 
             else:
             #without stopwords
-                stopwords_flag = "True"
+                stopwords_flag = "Stopwords"
                 stopwords_data = {
-                        'original text': tokenized_word,
-                        'stop words setting': stopwords_flag,
-                        'word frequencies': without_Stopwords_25
+                        'original_text': tokenized_word,
+                        'stop_words_setting': stopwords_flag,
+                        'word_frequencies': without_Stopwords_25
                     }
 
                 result = collection.insert_one(stopwords_data)
                 
 
             #store results in mongo database then push to frontend
-            return render_template('Add_item.html', results=without_Stopwords_25)
+            return render_template('Add_item.html', results=without_Stopwords_25) 
 
     else:
         result = request.args.get(['myfile'])
@@ -93,15 +92,20 @@ def getfile():
 
 
 @app.route('/FrequencyCount', methods=['GET', 'POST'])
-def FrequencyCount():          
+def FrequencyCount():         
     return render_template('Add_item.html')
 
 #fetch analysis from mongod database
-@app.route('/Analysis', methods=['GET','POST'])
-def Analysis_WithoutStopWords():
-    return render_template('stopwords.html')
-
-
+@app.route('/FrequencyAnalysis', methods=['GET','POST'])
+def FrequencyAnalysis():
+    myresult = collection.find().skip(collection.count() - 11)
+    list   = []
+    for i in myresult:
+        list.append(i)
+ 
+    print(list[0]["word_frequencies"])
+    
+    return render_template('analysis.html', list = list)
 
 if __name__ == '__main__':
    app.run(debug = True)
