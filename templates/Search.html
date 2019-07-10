@@ -1,0 +1,25 @@
+{% extends 'layout.html' %}
+{% block scripts %}
+	<script type="text/javascript" src="{{ url_for('static', filename = 'Search.js') }}"></script>
+	<script>var songs = {{songs|tojson}} </script>
+{% endblock %}
+
+{% block content %}
+<h1>Search </h1>
+<div class="container">
+	<div class="topDetails">
+		<h1>Song Details</h1>
+	</div>
+
+	<div class="input-group mb-3">
+	  <input type="text" class="form-control" placeholder="Search" id ="Search">
+	  <div class="input-group-append">
+	    <button class="btn btn-outline-secondary" type="button" id="Button">Search</button>
+	  </div>
+	</div>
+	<br>
+	<div id="results">
+	</div>
+</div>
+
+{% endblock %}

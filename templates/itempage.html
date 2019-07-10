@@ -1,0 +1,40 @@
+{% extends 'layout.html' %}
+{% block scripts %}
+	<script type="text/javascript" src="{{ url_for('static', filename = 'itempage.js') }}"></script>
+	<script>
+		var details = {{details|tojson}}
+	</script>
+{% endblock %}
+{% block content %}
+
+<div class="container">
+	<div class="row">
+        <div class="col-md-4">
+        	<div><h3>{{details[0]["Title"]}}</h3></div>
+        </div>
+    </div>
+    <div class="col-md-8 line"></div>
+    <div class="row">
+		<div class="col-md-2">Singer:</div>
+        <div class="col-md-6">
+        	<div><p>{{details[0]["Singer"]}}</p></div>
+        </div>
+    </div>
+    <div class="row">
+		<div class="col-md-2">
+			Album:
+		</div>
+  		<div class="col-md-6">
+        	<div><p>{{details[0]["Album"]}}</p></div>
+        </div>
+    </div>
+    <div class="row">
+		<div class="col-md-2">
+			Genre:
+		</div>
+        <div class="col-md-6">
+        	<div><p>{{details[0]["Genre"]}}</p></div>
+        </div>
+    </div>
+</div>
+{% endblock %}
