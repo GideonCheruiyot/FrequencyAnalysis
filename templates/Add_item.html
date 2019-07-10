@@ -1,22 +1,46 @@
 {% extends 'layout.html' %}
 {% block scripts %}
+    <style>
+h2 {
+  text-align: left;
+  font-weight: 100;
+  font-size: 25pt;
+}
+h5 {
+  font-weight: 200;
+  font-size: 20pt;
+}
+
+    </style>
+
 	<script type="text/javascript" src="{{ url_for('static', filename = 'Add_item.js') }}"></script>
 	<script>
-		var songs = {{songs|tojson}} 
+		
 	</script>
 {% endblock %}
 {% block content %}
-	<h1> Upload a File to process: </h1>
-	<br>
+<br>
+
+	<h2> Upload a File to process: </h2>
 	<br>
 
 	<div class="container">
 	    <div class="fileupload">
 		<form action="getfile" method="POST" enctype="multipart/form-data">
+<div class="control">
+  <label class="checkbox">
+    <input name="option_1" type="checkbox">
+    Do you want to include stopwords in your analysis
+    </label>
+</div>
+<br>
+<br>
+
+
 	<div class="col-md-9 row">
      
 <div class="col-md-3" >
-	<h4>Choose File:<h4> 
+	<h5>Choose File:<h5> 
 </div>
 
 <div. class="col-md-3" >
@@ -36,95 +60,44 @@
 	    <br>
 	    <br>
 
+
+
+
+
 	    <div class="topclass">
-	      <h1>Song Details</h1>
+	      <h2>Frequency Count Results</h2>
 	    </div> 
-	    <div id="song"> 
-	    	<div class="row">
-		        <div class="col-md-2">
-		           <label for="Title">Title</label> 
-		        </div>
-		        <div class="col-md-3">
-		        	<div class="ui-widget">
-		        		<input type="text" id="Title" placeholder="Title">
-		        	</div>
-		        </div>
-		    </div> 
-		    <div class="row">
-		        <div class="col-md-2">
-		           <label for="Singer">Singer</label>
-		        </div>
+	    <br>
+	    	<div class="col-md-9 row">
+     
+<div class="col-md-3" >
+	<h5>Word </h5>
+</div>
 
-		        <div class="col-md-3">
-		        	<div class="ui-widget">
-		        		<input type="text" id="Singer" placeholder="Singer">
-		        	</div>
-		        </div>
-		    </div> 
-		    <div class="row">
-		        <div class="col-md-3">
-		        	<label for="Album">Album: </label>
-		        </div>
-		        <div class="col-md-3">
-		        	<div class="ui-widget">
-		        		<input type="text" id="Album" placeholder="Album">
-		        	</div>
-		        </div>
-		    </div> 
-				<div class="row">
-		        <div class="col-md-2">
-		          <label for="Genre">Genre</label>
-		        </div>
-		        <div class="col-md-3">
-		        	<div class="ui-widget"><input type="text" id="Genre" placeholder="Genre"></div>
-		        </div>
-		    </div> 
-				<div class="row">
-		        <div class="col-md-1">
-		          <label for="Summary">Summary</label>
-		        </div>
+<div class="col-md-3" >
+	<h5>Count</h5>
+</div>
+</div>
 
-	        	<div class="col-md-3">
-		        	<div class="ui-widget"><input type="text" id="Summary" placeholder="Summary"></div>
-		        </div>
-		    </div> 
-				<div class="row">
-		        <div class="col-md-2">
-				<label for="Label">Label</label> </div>
-		        <div class="col-md-3">
-		        	<div class="ui-widget"><input type="text" id="Label" placeholder="Label"></div>
-		        </div>
-		    </div>
-				<div class="row">
-		        <div class="col-md-1">
-		          <label for="SongWriter">Songwriter:</label>
-		        </div>
-		        <div class="col-md-3"><div class="ui-widget">
-		        		<input type="text" id="Songwriter" placeholder="Songwriter"></div>
+	    <div id="results"> 
+	    	<ul class="list-group">
+{% for href, caption in results %}
+  <li class="list-group-item">
+	<div class="col-md-9 row">
+     
+<div class="col-md-3" >
+	 {{ href }}
+</div>
 
-		    </div>
-		</div> 
-				<div class="row">
-		        <div class="col-md-2">
-		          <label for="Producer">Producer</label>
-		        </div>
-		        <div class="col-md-3">
-		        	<div class="ui-widget">
-		        		<input type="text" id="Producer" placeholder="Producer">
-		        	</div>
-		        </div>
-		    </div> 	
-				<div class="row">        
-		         <div class="col-md-2">
-		          <label for="Image">Image</label>
-		        </div>
-		        <div class="col-md-3">
-		        	<div class="ui-widget">
-		        		<input type="text" id="image" placeholder="image">
-		        	</div>
-		        </div>
-		    </div> 
-		    <div class="col-md-12"> <button type="button" class="btn btn-primary btn-lg btn-block" id="Submit"> Submit </button></div>
+<div class="col-md-3" >
+	{{ caption }}
+</div>
+</div>
+ </li>
+{% endfor %}
+</ul>
+
+	   
 	    </div>
 	    <br>
 		<div id="user_info"></div>
