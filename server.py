@@ -44,8 +44,18 @@ def getfile():
             tokenized_word=word_tokenize(file_content)   
             tokenized_word = [word for word in tokenized_word if word.isalpha()]
 
+            stop_words=set(stopwords.words("english"))
+
             fdist_withStopwords = FreqDist(tokenized_word)
-            fdist_withoutStopwords = FreqDist(tokenized_word)
+            with_Stopwords_25 = fdist_withStopwords.most_common(25)
+            
+            filtered_word=[]
+            for w in tokenized_word:
+                if w not in stop_words:
+                    filtered_word.append(w) 
+
+            fdist_withoutStopwords = FreqDist(filtered_word)
+            without_Stopwords_25 = fdist_withoutStopwords.most_common(25)
 
             #add  (original text, stop words setting, and resulting word frequencies) to the mongodb collection
             stopwords_flag= "False"
@@ -53,34 +63,29 @@ def getfile():
             if(is_checked!='on'):
 
                 stopwords_flag= "False"
-                with_Stopwords_25 = fdist_withStopwords.most_common(25)
-                json_without_stopwords = {
-                        'title': 'Learning Python',
-                        'content': 'Learn Python, it is easy',
-                        'author': 'Bill'
+                without_stopwords_data = {
+                        'original text': tokenized_word,
+                        'stop words setting': stopwords_flag,
+                        'word frequencies': with_Stopwords_25
                     }
+                result = collection.insert_one(without_stopwords_data)
+                
 
             else:
-
-                stopwords_flag = "True"
-                stop_words=set(stopwords.words("english"))
             #without stopwords
-                filtered_word=[]
-                for w in tokenized_word:
-                    if w not in stop_words:
-                        filtered_word.append(w) 
-                fdist_withoutStopwords = FreqDist(filtered_word)
-                without_Stopwords_25 = fdist_withoutStopwords.most_common(25)
-
-                json_stopwords = {
-                        'title': 'Learning Python',
-                        'content': 'No',
-                        'author': 'Bill'
+                stopwords_flag = "True"
+                stopwords_data = {
+                        'original text': tokenized_word,
+                        'stop words setting': stopwords_flag,
+                        'word frequencies': without_Stopwords_25
                     }
+
+                result = collection.insert_one(stopwords_data)
+                
 
 
             #store results in mongo database then push to frontend
-            return render_template('Add_item.html', results=fdist_withoutStopwords.most_common(25))
+            return render_template('Add_item.html', results=without_Stopwords_25)
 
     else:
 
