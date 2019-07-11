@@ -1,5 +1,5 @@
 import re, string, unicodedata
-
+import inflect
 from flask import Flask
 from flask import render_template
 from flask import Response, request, jsonify
@@ -105,10 +105,10 @@ def getfile():
             file_content = f.read()  
             tokenized_word=word_tokenize(file_content)   
             tokenized_word = [word for word in tokenized_word if word.isalpha()]
+            tokenized_word = normalize(tokenized_word)
             print(tokenized_word)
-            print(normalize(tokenized_word))
-            token_word = stem_words(tokenized_word) 
-
+            tokenized_word = stem_words(tokenized_word) 
+            print(tokenized_word)
 
             stop_words=set(stopwords.words("english"))
 
