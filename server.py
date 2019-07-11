@@ -126,7 +126,7 @@ def getfile():
 
             else:
             #with stopwords
-                stopwords_flag = "Stopwords"
+                stopwords_flag = "Includes_Stopwords"
                 stopwords_data = {
                         'original_text': file_content,
                         'stop_words_setting': stopwords_flag,
