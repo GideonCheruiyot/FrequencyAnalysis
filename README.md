@@ -46,7 +46,7 @@ http://127.0.0.1:5000/FrequencyCount
 
 #  Libraries/frameworks you used
 
-### Python Backend
+### Flask Backend
 I used Flask to write the backend for the Web App. With Flask, I used mongodb so as to be able to have persisted analysis by fetching the last N records entered into the mongodb database. To use mongodb with Python, I used Pymongo. 
 
 ### Database
