@@ -36,12 +36,38 @@ http://127.0.0.1:5000/FrequencyCount
 
 You can then switch in between the tabs
 
+:+1:  **_ _Ready!!_ to process some files**  :shipit:
+
 #  Libraries/frameworks you used
 
+### Python Backend
+I used Flask to write the backend for the Web App. With Flask, I used mongodb so as to be able to have persisted analysis by fetching the last N records entered into the mongodb database. To use mongodb with Python, I used Pymongo. 
+
+### Database
+
+mongodb with key-value relationship which was very effecient in this case. 
+
+### Web App Frontend
+I used a mix of HTML, Bootstrap, JQuery and Javascript to display the results on the frontend.
+
+### Text Processing
+
+I used the ntlk toolkit to tokenize the contents of the file uploaded, to find the 25 most common words and to remove stopwords when needed.
+
+## Stemming
+After normalizing the data, I used Porter's stemming algorithm based on the original paper: http://tartarus.org/martin/PorterStemmer. I simplified it since we only need to cater for two cases:
+
+• Regularly conjugated english verbs. For example, consider "talk", "talks", "talking", and "talked" to all be forms of "talk”, and “passes”, “passed”, and “passing” to all be forms of “pass”.
+• Regularly pluralized english nouns. For example, consider "cat" and "cats" to be forms of "cat".
+
+These two cases are covered by Step 1 of Porter's algorithm implemented in server.py.
 
 
 
 
 
-:+1:  **_ _Ready!!_ to process some files**  :shipit:
+
+
+
+
 
