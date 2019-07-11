@@ -1,3 +1,5 @@
+import re, string, unicodedata
+
 from flask import Flask
 from flask import render_template
 from flask import Response, request, jsonify
@@ -8,17 +10,13 @@ from nltk.probability import FreqDist
 import pymongo
 import os
 import datetime
-
-
-#Loading NLTK
-
 import nltk
+#Loading NLTK
 from nltk import word_tokenize,sent_tokenize
 from nltk.corpus import stopwords
 from nltk.tokenize import RegexpTokenizer
 
 # initialize connection to MongoDB and retrieve access to data files
-
 client = pymongo.MongoClient("mongodb://Bedoki:Bedoki12@cluster0-shard-00-00-p63uk.gcp.mongodb.net:27017,cluster0-shard-00-01-p63uk.gcp.mongodb.net:27017,cluster0-shard-00-02-p63uk.gcp.mongodb.net:27017/test?ssl=true&replicaSet=Cluster0-shard-0&authSource=admin&retryWrites=true&w=majority")
 db = client.HumanPractice
 
@@ -29,6 +27,62 @@ nltk.download('punkt')
 nltk.download('stopwords')
 
 app = Flask(__name__)
+
+
+def remove_non_ascii(words):
+    """Remove non-ASCII characters from list of tokenized words"""
+    removed_nonascii = []
+    for word in words:
+        new_word = unicodedata.normalize('NFKD', word).encode('ascii', 'ignore').decode('utf-8', 'ignore')
+        removed_nonascii.append(new_word)
+    return removed_nonascii
+
+def to_lowercase(words):
+    """Convert all words to lowercase so as to make processing even"""
+    all_lowercase = []
+    for word in words:
+        new_word = word.lower()
+        all_lowercase.append(new_word)
+    return all_lowercase
+
+def remove_punctuation(words):
+    """Remove punctuation from tokenized words"""
+    removed_punctuation = []
+    for word in words:
+        new_word = re.sub(r'[^\w\s]', '', word)
+        if new_word != '':
+            removed_punctuation.append(new_word)
+    return removed_punctuation
+
+def replace_numbers(words):
+    """convert numbers to strings"""
+    p = inflect.engine()
+    remove_numbers = []
+    for word in words:
+        if word.isdigit():
+            new_word = p.number_to_words(word)
+            remove_numbers.append(new_word)
+        else:
+            remove_numbers.append(word)
+    return remove_numbers
+
+
+
+def normalize(words):
+    words = remove_non_ascii(words)
+    words = to_lowercase(words)
+    words = remove_punctuation(words)
+    words = replace_numbers(words)
+    return words
+
+
+def remove_stopwords(words):
+    """Remove stopwords from tokenized words"""
+    removed_stopwords = []
+    for word in words:
+        if word not in stopwords.words('english'):
+            removed_stopwords.append(word)
+    return removed_stopwords
 
 def stem_words(words):
     """Stem words in list of tokenized words"""
@@ -52,9 +106,9 @@ def getfile():
             tokenized_word=word_tokenize(file_content)   
             tokenized_word = [word for word in tokenized_word if word.isalpha()]
             print(tokenized_word)
-            token_word = stem_words(tokenized_word)
-            print(token_word)
-            
+            print(normalize(tokenized_word))
+            token_word = stem_words(tokenized_word) 
+
 
             stop_words=set(stopwords.words("english"))
 
