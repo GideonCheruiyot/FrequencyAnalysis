@@ -8,9 +8,10 @@ NLP Frequency Analysis switch between the FrequencyCount view and FrequencyAnaly
 
 ## FrequencyCount Page
 <img src="src/Image1.png" width="550" height ="275"><br><br>
-## FrequencyAnalysis Page
-<img src="src/Image2.png" width="550" height ="275"><br><br>
 ## Word frequencies
+<img src="src/Image2.png" width="550" height ="275"><br><br>
+
+## FrequencyAnalysis Page
 <img src="src/Image3.png" width="550" height ="275"><br><br>
 
 
