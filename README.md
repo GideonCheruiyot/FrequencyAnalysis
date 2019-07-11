@@ -12,3 +12,9 @@ NLP Frequency Analysis switch between the FrequencyCount view and FrequencyAnaly
 
 
 # How to run
+
+```ruby
+require 'redcarpet'
+markdown = Redcarpet.new("Hello World!")
+puts markdown.to_html
+```
