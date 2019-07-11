@@ -60,23 +60,22 @@ def getfile():
             #add  (original text, stop words setting, and resulting word frequencies) to the mongodb collection
             stopwords_flag= "No_Stopwords"
             is_checked = request.form.get('option_1')
-            if(is_checked!='on'):
-
+            if(is_checked=='on'):
                 stopwords_flag= "No_Stopwords"
                 without_stopwords_data = {
-                        'original_text': tokenized_word,
+                        'original_text': file_content,
                         'stop_words_setting': stopwords_flag,
-                        'word_frequencies': with_Stopwords_25
+                        'word_frequencies': without_Stopwords_25
                     }
                 result = collection.insert_one(without_stopwords_data)       
 
             else:
-            #without stopwords
+            #with stopwords
                 stopwords_flag = "Stopwords"
                 stopwords_data = {
-                        'original_text': tokenized_word,
+                        'original_text': file_content,
                         'stop_words_setting': stopwords_flag,
-                        'word_frequencies': without_Stopwords_25
+                        'word_frequencies': with_Stopwords_25
                     }
 
                 result = collection.insert_one(stopwords_data)
