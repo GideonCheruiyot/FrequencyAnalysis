@@ -6,6 +6,10 @@ NLP Frequency Analysis is a web application that allows a user to upload a file 
 NLP Frequency Analysis switch between the FrequencyCount view and FrequencyAnalysis view using a navigation bar. On the FrequencyCount Tab, they can upload a file and then process it to view the 25 most frequent words with their counts, excluding stopwords. On the Frequency Analysis Tab, they can switch in between several menus displaying the ten most recent frequency analyses.Here are the page views:
 
 
+
+### NOTE: PLEASE MAKE SURE FILES TO BE UPLOADED ARE IN THE CLONED SERVER DIRECTORY. THIS WEB APP ALLOWS UPLOAD OF TEXT FILES, EITHER USE EXAMPLES IN DIRECTORY, OR MOVE YOUR TEXT FILE TO THE DIRECTORY WITH THESE FILES THEN UPLOAD IT.
+
+
 ## FrequencyCount Page
 <img src="src/Image1.png" width="550" height ="275"><br><br>
 ## Word frequencies
@@ -13,6 +17,7 @@ NLP Frequency Analysis switch between the FrequencyCount view and FrequencyAnaly
 
 ## FrequencyAnalysis Page
 <img src="src/Image3.png" width="550" height ="275"><br><br>
+
 
 
 # How to run
@@ -38,7 +43,6 @@ http://127.0.0.1:5000/FrequencyCount
 :+1:  **_ _Ready!!_ to process some files**  :shipit:
 
 
-## NOTE: PLEASE MAKE SURE FILES TO BE UPLOADED ARE IN THE CLONED SERVER DIRECTORY. THIS WEB APP ALLOWS UPLOAD OF TEXT FILES, EITHER USE EXAMPLES IN DIRECTORY, OR MOVE YOUR TEXT FILE TO THE DIRECTORY WITH THESE FILES THEN UPLOAD IT.
 
 #  Libraries/frameworks you used
 
