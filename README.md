@@ -19,3 +19,21 @@ First, install all the requirements needed from the requirements.txt file
 ```python
 pip install -r requirements.txt
 ```
+
+Then run:
+
+```python
+python server.py
+```
+
+Load your browser and enter the link: 
+
+http://127.0.0.1:5000/FrequencyCount
+
+You can then switch in between the tabs
+
+#  Libraries/frameworks you used
+
+
+
+:+1: Ready!! :shipit:
