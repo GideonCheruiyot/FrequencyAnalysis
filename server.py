@@ -106,21 +106,10 @@ def getfile():
             tokenized_word=word_tokenize(file_content)   
             tokenized_word = [word for word in tokenized_word if word.isalpha()]
             tokenized_word = normalize(tokenized_word)
-            print(tokenized_word)
             tokenized_word = stem_words(tokenized_word) 
-            print(tokenized_word)
-
-            stop_words=set(stopwords.words("english"))
-
             fdist_withStopwords = FreqDist(tokenized_word)
             with_Stopwords_25 = fdist_withStopwords.most_common(25)
-            
-            filtered_word=[]
-            for w in tokenized_word:
-                if w not in stop_words:
-                    filtered_word.append(w) 
-
-            fdist_withoutStopwords = FreqDist(filtered_word)
+            fdist_withoutStopwords = FreqDist(remove_stopwords(tokenized_word))
             without_Stopwords_25 = fdist_withoutStopwords.most_common(25)
 
             #add  (original text, stop words setting, and resulting word frequencies) to the mongodb collection
