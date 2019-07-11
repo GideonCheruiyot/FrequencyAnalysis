@@ -6,11 +6,11 @@ NLP Frequency Analysis is a web application that a user to upload a file and vie
 NLP Frequency Analysis switch between the FrequencyCount view and FrequencyAnalysis view using a navigation bar. On the FrequencyCount Tab, they can upload a file and then process it to view the 25 most frequent words with their counts, excluding stopwords. On the Frequency Analysis Tab, they can switch in between several menus displaying the ten most recent frequency analyses.
 
 
-##FrequencyCount Page
+## FrequencyCount Page
 <img src="src/Image1.png" width="550" height ="275"><br><br>
-##FrequencyAnalysis Page
+## FrequencyAnalysis Page
 <img src="src/Image2.png" width="550" height ="275"><br><br>
-##Word frequencies
+## Word frequencies
 <img src="src/Image3.png" width="550" height ="275"><br><br>
 
 
