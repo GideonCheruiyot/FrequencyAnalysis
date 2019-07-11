@@ -12,9 +12,10 @@ NLP Frequency Analysis switch between the FrequencyCount view and FrequencyAnaly
 
 
 # How to run
+First, install all the requirements needed from the requirements.txt file
 
-```ruby
-require 'redcarpet'
-markdown = Redcarpet.new("Hello World!")
-puts markdown.to_html
+
+
+```python
+pip install -r requirements.txt
 ```
