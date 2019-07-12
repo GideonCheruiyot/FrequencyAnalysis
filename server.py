@@ -17,8 +17,10 @@ from nltk.corpus import stopwords
 from nltk.tokenize import RegexpTokenizer
 
 # initialize connection to MongoDB and retrieve access to data files
-client = pymongo.MongoClient("mongodb://Bedoki:Bedoki12@cluster0-shard-00-00-p63uk.gcp.mongodb.net:27017,cluster0-shard-00-01-p63uk.gcp.mongodb.net:27017,cluster0-shard-00-02-p63uk.gcp.mongodb.net:27017/test?ssl=true&replicaSet=Cluster0-shard-0&authSource=admin&retryWrites=true&w=majority")
-db = client.HumanPractice
+client = pymongo.MongoClient("mongodb://Bedoki12:Bedoki12@ds151007.mlab.com:51007/heroku_v25h8865")
+
+#client = pymongo.MongoClient("mongodb://Bedoki:Bedoki12@cluster0-shard-00-00-p63uk.gcp.mongodb.net:27017,cluster0-shard-00-01-p63uk.gcp.mongodb.net:27017,cluster0-shard-00-02-p63uk.gcp.mongodb.net:27017/test?ssl=true&replicaSet=Cluster0-shard-0&authSource=admin&retryWrites=true&w=majority")
+db = client.heroku_v25h8865
 
 collection = db.Freq
 
@@ -122,7 +124,8 @@ def FrequencyCount():
                         'stop_words_setting': stopwords_flag,
                         'word_frequencies': without_Stopwords_25
                     }
-                result = collection.insert_one(without_stopwords_data)       
+                #result = collection.insert_one(without_stopwords_data) 
+                collection.insert(without_stopwords_data)   
 
             else:
             #with stopwords
@@ -133,7 +136,8 @@ def FrequencyCount():
                         'word_frequencies': with_Stopwords_25
                     }
 
-                result = collection.insert_one(stopwords_data)
+                #result = collection.insert_one(stopwords_data)
+                collection.insert(stopwords_data)   
                 
 
             #store results in mongo database then push to frontend
