@@ -1,0 +1,103 @@
+{% extends 'layout.html' %}
+{% block scripts %}
+    <style>
+h2 {
+  text-align: left;
+  font-weight: 100;
+  font-size: 25pt;
+}
+.header {
+  overflow: hidden;
+  background-color: #f1f1f1;
+  padding: 20px 10px;
+}
+.topclass {
+  overflow: hidden;
+  background-color: #f1f1f1;
+  padding: 20px 10px;
+}
+.lol {
+  overflow: hidden;
+  background-color: azure;
+  width: 700px;
+  padding: 20px 10px;
+}
+.previous {
+  background-color: aliceblue;
+  color: black;
+}
+
+.next {
+  background-color: aliceblue;
+  color: black;
+  
+}
+
+a {
+	height: 100px;
+}
+
+h5 {
+  font-weight: 200;
+  font-size: 20pt;
+}
+
+    </style>
+
+	<script type="text/javascript" src="{{ url_for('static', filename = 'Add_item.js') }}"></script>
+	<script>
+		
+	</script>
+{% endblock %}
+{% block content %}
+<br>
+
+	<div class="container">
+		<div class = "row">
+  <div align = "left" class = "one col-md-9">
+<a href="http://127.0.0.1:5000/Upload" class="previous">&laquo; Go back and upload another file</a>
+</div>
+<div class = "two col-md-3">
+<a href="http://127.0.0.1:5000/FrequencyAnalysis" class="next"> View 10 recent analyses &raquo;</a>
+</div>
+</div>
+<br>
+
+	    <div class="topclass">
+	      <h2>Frequency Count Results (Excluding common English stop words)</h2>
+	    </div> 
+	 
+	    	<div class="col-md-9 row">
+     
+<div class="col-md-3" >
+	<h5>Word </h5>
+</div>
+
+<div class="col-md-3" >
+	<h5>Count</h5>
+</div>
+</div>
+
+	    <div id="results"> 
+	    	<ol type="1" class="list-group">
+{% for href, caption in results %}
+  <li class="list-group-item">
+	<div class="col-md-9 row">
+<div class="col-md-3" >
+	 {{ href }}
+</div>
+
+<div class="col-md-3" >
+	{{ caption }}
+</div>
+</div>
+ </li>
+{% endfor %}
+</ol>
+
+	   
+	    </div>
+	    <br>
+		<div id="user_info"></div>
+	</div>
+{% endblock %}

@@ -13,9 +13,14 @@
 } 
 p {display: inline;
 font-size: 40px;
+font-weight: 200px;
 }
 .mycontent-left {
   border-right: 1px dashed #333;
+}
+.previous {
+  background-color: aliceblue;
+  color: black;
 }
 
   </style>
@@ -29,9 +34,14 @@ font-size: 40px;
 	</script>
 {% endblock %}
 {% block content %}
+<br>
+   <div align = "left" class = "one col-md-9">
+<a href="http://127.0.0.1:5000/Upload" class="previous">&laquo; Go back and upload another file</a>
+</div>
+
 <div class="container mt-3">
-  <br>
-  <h2>Compare your results with previous Frequency Analysis:</h2>
+<br> 
+  <h2>Compare your results with previous Frequency Analyses</h2>
   <br>
   <br>
   <!-- Nav tabs -->

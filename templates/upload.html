@@ -19,7 +19,8 @@ h2 {
 .lol {
   overflow: hidden;
   background-color: azure;
-  padding: 20px 10px;
+  padding: 40px 29px;
+
 }
 
 .header a {
@@ -44,6 +45,12 @@ h5 {
   display:block;
   max-width:100%;
   cursor:pointer;
+}
+
+.next {
+  background-color: aliceblue;
+  color: black;
+  
 }
 
 .input-file .btn { 
@@ -96,16 +103,27 @@ h5 {
 <br>
 
 <div class="header">
-<h2> Upload a File to process </h2>
+<h2> Upload a file to process</h2>
 </div>
 
 
 	<div class="container">
 	    <div class="fileupload">
-		<form action="getfile" method="POST" enctype="multipart/form-data">
+		<form action="FrequencyCount" method="POST" enctype="multipart/form-data">
 
 <br>
 <br>
+  <div class = "row">
+  <div align = "left" class = "one col-md-8">
+<a href="http://127.0.0.1:5000/Upload" class="previous"></a>
+</div>
+<div class = "two col-md-3">
+<a href="http://127.0.0.1:5000/FrequencyAnalysis" class="next"> View 10 recent analyses &raquo;</a>
+</div>
+</div>
+<br>
+<br>
+
 <div class="form-check">
     <input type="checkbox" name="option_1" class="form-check-input" id="materialUnchecked">
     <label class="form-check-label" for="materialUnchecked">Check to exclude stopwords in your analysis</label>
@@ -114,24 +132,23 @@ h5 {
 <br>
 <br>
 
-<div class="lol col-md-9 row">
+<div class="lol col-md-11 row">
      
-<div class="col-md-3" >
-	<h5>Choose File:<h5> 
+<div class="col-md-5" >
+	<h5>Click button on right to upload:<h5> 
 
 </div>
 
-<div class="col-md-3" >
-
+<div class="col-md-6" >
 	<input type="file" name="myfile"><br>
 </div>
 <br>
-
 </div>
+
 <br>
 <br>
 
-   <div class="col-md-5"> <button type="file" class="btn btn-primary btn-lg btn-block" name="myfile"> View Word Counts from Chosen File </button></div>
+  <div class="col-md-3"> <button aligh = "left" type="file" class="btn btn-primary btn-lg btn-block" name="myfile"> View Word Counts</button></div>
 
 </form>
 
@@ -139,43 +156,4 @@ h5 {
 
 	    <br>
 	    <br>
-
-	    <div class="topclass">
-	      <h2>Frequency Count Results (Excluding common English stop words)</h2>
-	    </div> 
-	 
-	    	<div class="col-md-9 row">
-     
-<div class="col-md-3" >
-	<h5>Word </h5>
-</div>
-
-<div class="col-md-3" >
-	<h5>Count</h5>
-</div>
-</div>
-
-	    <div id="results"> 
-	    	<ul class="list-group">
-{% for href, caption in results %}
-  <li class="list-group-item">
-	<div class="col-md-9 row">
-     
-<div class="col-md-3" >
-	 {{ href }}
-</div>
-
-<div class="col-md-3" >
-	{{ caption }}
-</div>
-</div>
- </li>
-{% endfor %}
-</ul>
-
-	   
-	    </div>
-	    <br>
-		<div id="user_info"></div>
-	</div>
 {% endblock %}

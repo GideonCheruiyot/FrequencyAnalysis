@@ -93,8 +93,8 @@ def stem_words(words):
         stems.append(stem)
     return stems
 
-@app.route('/getfile', methods=['GET','POST'])
-def getfile():
+@app.route('/FrequencyCount', methods=['GET','POST'])
+def FrequencyCount():
     if request.method == 'POST':
         # for secure filenames. Read the documentation.
         file = request.files['myfile']
@@ -137,15 +137,15 @@ def getfile():
                 
 
             #store results in mongo database then push to frontend
-            return render_template('Add_item.html', results=without_Stopwords_25) 
+            return render_template('frequencyCounts.html', results=without_Stopwords_25) 
     else:
         return "OK"
 
 
 
-@app.route('/FrequencyCount', methods=['GET', 'POST'])
-def FrequencyCount():         
-    return render_template('Add_item.html')
+@app.route('/Upload', methods=['GET', 'POST'])
+def Upload():         
+    return render_template('upload.html')
 
 #fetch analysis from mongod database
 @app.route('/FrequencyAnalysis', methods=['GET','POST'])
