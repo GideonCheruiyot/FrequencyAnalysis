@@ -1,1 +1,1 @@
-web: gunicorn humanpracticefrequencyanalysis.wsgi --log-file -
+web: python app.py
