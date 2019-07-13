@@ -136,7 +136,7 @@ def FrequencyCount():
             with open(os.path.join(app.config['UPLOAD_FOLDER'], filename)) as f:
         #with open("/Users/mercytich/Desktop/filename") as f:
                 file_content = f.read()
-                print(file_content)  
+
                 tokenized_word=word_tokenize(file_content)   
                 tokenized_word = [word for word in tokenized_word if word.isalpha()]
                 tokenized_word = normalize(tokenized_word)
@@ -158,7 +158,7 @@ def FrequencyCount():
                             'word_frequencies': without_Stopwords_25
                         }
                     #result = collection.insert_one(without_stopwords_data) 
-                    collection.insert(without_stopwords_data)   
+                    collection.insert_one(without_stopwords_data)   
 
                 else:
                 #store data with stopwords in mongo db
@@ -193,7 +193,7 @@ def FrequencyAnalysis():
     list   = []
     for i in myresult:
         list.append(i)
-    print(list)
+
     
     return render_template('analysis.html', list = list)
 
