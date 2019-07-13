@@ -7,7 +7,13 @@ NLP Frequency Analysis switch between the FrequencyCount view and FrequencyAnaly
 
 
 
-### NOTE TO USER: PLEASE MAKE SURE FILES TO BE UPLOADED ARE IN THE CLONED SERVER DIRECTORY. THIS WEB APP ALLOWS UPLOAD OF TEXT FILES, EITHER USE EXAMPLES IN DIRECTORY, OR MOVE YOUR TEXT FILE TO THE DIRECTORY WITH THESE FILES THEN UPLOAD IT.
+### View Deployed Version 
+
+There is a Heroku version of the web app running on:
+
+```
+https://humanpracticefrequencyanalysis.herokuapp.com/
+```
 
 
 ## FrequencyCount Page
