@@ -43,9 +43,11 @@ python server.py
 
 - Load your browser and enter the link: 
 
-http://127.0.0.1:5000/FrequencyCount
+```python
+http://127.0.0.1:5000/
+```
 
-- You can then switch in between the tabs
+- You can then use the navigation bar and different menus to navigate
 
 :+1:  **_ _Ready!!_ to process some files**  :shipit:
 
