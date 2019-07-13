@@ -4,9 +4,11 @@ from flask import Flask
 from flask import render_template
 from flask import Response, request, jsonify
 from flask import Flask, render_template, request
+from flask import Flask, flash, request, redirect, render_template
 from werkzeug import secure_filename
 from nltk.tokenize import word_tokenize
 from nltk.probability import FreqDist
+import urllib.request
 import pymongo
 import os
 import datetime
@@ -16,11 +18,14 @@ from nltk import word_tokenize,sent_tokenize
 from nltk.corpus import stopwords
 from nltk.tokenize import RegexpTokenizer
 
-# initialize connection to MongoDB and retrieve access to data files
-client = pymongo.MongoClient("mongodb://Bedoki12:Bedoki12@ds151007.mlab.com:51007/heroku_v25h8865")
 
-#client = pymongo.MongoClient("mongodb://Bedoki:Bedoki12@cluster0-shard-00-00-p63uk.gcp.mongodb.net:27017,cluster0-shard-00-01-p63uk.gcp.mongodb.net:27017,cluster0-shard-00-02-p63uk.gcp.mongodb.net:27017/test?ssl=true&replicaSet=Cluster0-shard-0&authSource=admin&retryWrites=true&w=majority")
-db = client.heroku_v25h8865
+# initialize connection to MongoDB and retrieve access to data files
+#client = pymongo.MongoClient("mongodb://Bedoki12:Bedoki12@ds151007.mlab.com:51007/heroku_v25h8865")
+
+client = pymongo.MongoClient("mongodb://Bedoki:Bedoki12@cluster0-shard-00-00-p63uk.gcp.mongodb.net:27017,cluster0-shard-00-01-p63uk.gcp.mongodb.net:27017,cluster0-shard-00-02-p63uk.gcp.mongodb.net:27017/test?ssl=true&replicaSet=Cluster0-shard-0&authSource=admin&retryWrites=true&w=majority")
+#db = client.heroku_v25h8865
+db = client.HumanPractice
+
 
 collection = db.Freq
 
@@ -29,6 +34,12 @@ nltk.download('punkt')
 nltk.download('stopwords')
 
 app = Flask(__name__)
+app.secret_key = "secret key"
+APP_ROOT = os.path.dirname(os.path.abspath(__file__))
+UPLOAD_FOLDER = os.path.join(APP_ROOT, 'static/uploads')
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+
+app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024
 
 
 def remove_non_ascii(words):
@@ -69,7 +80,7 @@ def replace_numbers(words):
     return remove_numbers
 
 
-
+#normalize the text for processing
 def normalize(words):
     words = remove_non_ascii(words)
     words = to_lowercase(words)
@@ -95,71 +106,94 @@ def stem_words(words):
         stems.append(stem)
     return stems
 
+ALLOWED_EXTENSIONS = set(['txt'])
+
+#only allowed extensions 
+def allowed_file(filename):
+    return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+ 
+@app.route('/')
+def upload_form():
+    return render_template('upload.html')
+
 @app.route('/FrequencyCount', methods=['GET','POST'])
 def FrequencyCount():
     if request.method == 'POST':
-        # for secure filenames. Read the documentation.
+        # check if the post request has the file part
+        if 'myfile' not in request.files:
+            flash('No file part')
+            return render_template('frequencyCounts.html')
         file = request.files['myfile']
-        filename = secure_filename(file.filename) 
-
-        with open(filename) as f:
+        if file.filename == '':
+           
+            flash('Error! No file selected for uploading')
+            return render_template('frequencyCounts.html')
+            
+        #check if file is valid 
+        if file and allowed_file(file.filename): 
+            filename = secure_filename(file.filename)
+            file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+            with open(os.path.join(app.config['UPLOAD_FOLDER'], filename)) as f:
         #with open("/Users/mercytich/Desktop/filename") as f:
-            file_content = f.read()  
-            tokenized_word=word_tokenize(file_content)   
-            tokenized_word = [word for word in tokenized_word if word.isalpha()]
-            tokenized_word = normalize(tokenized_word)
-            tokenized_word = stem_words(tokenized_word) 
-            fdist_withStopwords = FreqDist(tokenized_word)
-            with_Stopwords_25 = fdist_withStopwords.most_common(25)
-            fdist_withoutStopwords = FreqDist(remove_stopwords(tokenized_word))
-            without_Stopwords_25 = fdist_withoutStopwords.most_common(25)
+                file_content = f.read()
+                print(file_content)  
+                tokenized_word=word_tokenize(file_content)   
+                tokenized_word = [word for word in tokenized_word if word.isalpha()]
+                tokenized_word = normalize(tokenized_word)
+                tokenized_word = stem_words(tokenized_word) 
+                fdist_withStopwords = FreqDist(tokenized_word)
+                with_Stopwords_25 = fdist_withStopwords.most_common(25)
+                fdist_withoutStopwords = FreqDist(remove_stopwords(tokenized_word))
+                without_Stopwords_25 = fdist_withoutStopwords.most_common(25)
 
-            #add  (original text, stop words setting, and resulting word frequencies) to the mongodb collection
-            stopwords_flag= "No_Stopwords"
-            is_checked = request.form.get('option_1')
-            if(is_checked=='on'):
+                #add  (original text, stop words setting, and resulting word frequencies) to the mongodb collection
                 stopwords_flag= "No_Stopwords"
-                without_stopwords_data = {
-                        'original_text': file_content,
-                        'stop_words_setting': stopwords_flag,
-                        'word_frequencies': without_Stopwords_25
-                    }
-                #result = collection.insert_one(without_stopwords_data) 
-                collection.insert(without_stopwords_data)   
+                #store data without stopwords in db
+                is_checked = request.form.get('option_1')
+                if(is_checked=='on'):
+                    stopwords_flag= "No_Stopwords"
+                    without_stopwords_data = {
+                            'original_text': file_content,
+                            'stop_words_setting': stopwords_flag,
+                            'word_frequencies': without_Stopwords_25
+                        }
+                    #result = collection.insert_one(without_stopwords_data) 
+                    collection.insert(without_stopwords_data)   
 
-            else:
-            #with stopwords
-                stopwords_flag = "Includes_Stopwords"
-                stopwords_data = {
-                        'original_text': file_content,
-                        'stop_words_setting': stopwords_flag,
-                        'word_frequencies': with_Stopwords_25
-                    }
+                else:
+                #store data with stopwords in mongo db
+                    stopwords_flag = "Includes_Stopwords"
+                    stopwords_data = {
+                            'original_text': file_content,
+                            'stop_words_setting': stopwords_flag,
+                            'word_frequencies': with_Stopwords_25
+                        }
 
-                #result = collection.insert_one(stopwords_data)
-                collection.insert(stopwords_data)   
+                    #result = collection.insert_one(stopwords_data)
+                    collection.insert_one(stopwords_data)   
                 
+                #store results in mongo database then push to frontend
+                return render_template('frequencyCounts.html', results=without_Stopwords_25) 
+        else:
+            #File type error exception
+            flash('Wrong file type! Allowed file types are txt')
+            return render_template('frequencyCounts.html')
 
-            #store results in mongo database then push to frontend
-            return render_template('frequencyCounts.html', results=without_Stopwords_25) 
+
     else:
         return "OK"
 
-
-
-@app.route('/Upload', methods=['GET', 'POST'])
-def Upload():         
-    return render_template('upload.html')
 
 #fetch analysis from mongod database
 @app.route('/FrequencyAnalysis', methods=['GET','POST'])
 def FrequencyAnalysis():
     #query to pull the most recent 11 items from mongo database
     myresult = collection.find().skip(collection.count() - 11)
+
     list   = []
     for i in myresult:
         list.append(i)
- 
+    print(list)
     
     return render_template('analysis.html', list = list)
 
@@ -280,6 +314,8 @@ class Stemmer:
             elif (self.M() == 1 and self.cvc(self.x)):
                 self.set("e")
 
+
+#stemming algo
 
     def stem(self, p, i, j):
         self.str = p  

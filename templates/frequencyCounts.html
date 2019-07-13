@@ -16,6 +16,11 @@ h2 {
   background-color: #f1f1f1;
   padding: 20px 10px;
 }
+.flashes{
+  color: blue;
+  font-size: 30px;
+}
+
 .lol {
   overflow: hidden;
   background-color: azure;
@@ -55,13 +60,27 @@ h5 {
 	<div class="container">
 		<div class = "row">
   <div align = "left" class = "one col-md-9">
-<a href="http://127.0.0.1:5000/Upload" class="previous">&laquo; Go back and upload another file</a>
+<a href="https://humanpracticefrequencyanalysis.herokuapp.com/" class="previous">&laquo; Go back and upload another file</a>
 </div>
 <div class = "two col-md-3">
-<a href="http://127.0.0.1:5000/FrequencyAnalysis" class="next"> View 10 recent analyses &raquo;</a>
+<a href="https://humanpracticefrequencyanalysis.herokuapp.com/FrequencyAnalysis" class="next"> View 10 recent analyses &raquo;</a>
 </div>
 </div>
 <br>
+
+<p>
+  {% with messages = get_flashed_messages() %}
+    {% if messages %}
+    <ul class=flashes>
+    {% for message in messages %}
+      <li>{{ message }}</li>
+    {% endfor %}
+    </ul>
+    {% endif %}
+  {% endwith %}
+</p>
+<br>
+
 
 	    <div class="topclass">
 	      <h2>Frequency Count Results (Excluding common English stop words)</h2>
